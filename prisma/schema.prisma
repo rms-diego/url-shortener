@@ -13,8 +13,8 @@ datasource db {
 model Url {
   id String @id @default(uuid())
 
-  baseUrl    String
-  shortedUrl String
+  baseUrl String
+  hash    String
 
   @@map("url")
 }
