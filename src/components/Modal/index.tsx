@@ -19,7 +19,7 @@ export function Modal({ urlCreated, toggleOpenAndCloseModal }: ModalProps) {
         <FaWindowClose size={25} onClick={() => toggleOpenAndCloseModal()} />
 
         <div className={styles.content}>
-          <h2>Url encurtada: {`${domain}${urlCreated.hash}`}</h2>
+          <h2>Url encurtada: {`${domain}${urlCreated.id}`}</h2>
 
           <Link
             href={`http://${urlCreated.baseUrl}`}
