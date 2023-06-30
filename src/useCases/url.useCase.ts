@@ -1,12 +1,15 @@
 import { UrlRepository } from "@/repositories/url.repository";
-import { randomUUID } from "crypto";
 
 export class UrlUseCase {
   static async saveUrl(url: string) {
-    const hash = randomUUID();
-
-    const urlCreated = await UrlRepository.saveUrl(url, hash);
+    const urlCreated = await UrlRepository.saveUrl(url);
 
     return urlCreated;
+  }
+
+  static async getUrlById(id: string) {
+    const urlFound = await UrlRepository.getUrlById(id);
+
+    return urlFound;
   }
 }
