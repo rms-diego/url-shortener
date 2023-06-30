@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import styles from "@/styles/pages/home/styles.module.scss";
+import { urlCreatedSchema } from "@/services/apiServices/url/saveUrl";
 
 export default function RedirectPage() {
   const { asPath: urlId } = useRouter();
@@ -11,9 +12,12 @@ export default function RedirectPage() {
     const getUrlById = async () => {
       const { data } = await client.get(`/url${urlId}`);
 
-      const includesHttp = data.baseUrl.includes(["https://", "http://"]);
+      const formatData = urlCreatedSchema.parse(data);
 
-      if (!includesHttp) {
+      const includesHttps = formatData.baseUrl.includes("https://");
+      const includesHttp = formatData.baseUrl.includes("http://");
+
+      if (!includesHttp || !includesHttps) {
         return (window.location.href = `https://${data.baseUrl}`);
       }
 
