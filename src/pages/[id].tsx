@@ -17,11 +17,10 @@ export default function RedirectPage() {
       const includesHttps = formatData.baseUrl.includes("https://");
       const includesHttp = formatData.baseUrl.includes("http://");
 
-      if (!includesHttp || !includesHttps) {
-        return (window.location.href = `https://${data.baseUrl}`);
+      if (includesHttp || includesHttps) {
+        return (window.location.href = data.baseUrl);
       }
-
-      return (window.location.href = data.baseUrl);
+      return (window.location.href = `https://${data.baseUrl}`);
     };
 
     getUrlById();

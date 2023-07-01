@@ -13,6 +13,14 @@ interface ModalProps {
 export function Modal({ urlCreated, toggleOpenAndCloseModal }: ModalProps) {
   const domain = window.location.href;
 
+  const includesHttps = urlCreated.baseUrl.includes("https://");
+  const includesHttp = urlCreated.baseUrl.includes("http://");
+
+  const formatUrl =
+    includesHttp || includesHttps
+      ? urlCreated.baseUrl
+      : `https://${urlCreated.baseUrl}`;
+
   return (
     <div className={styles.modalContainer}>
       <div className={styles.modalContentContainer}>
@@ -22,7 +30,7 @@ export function Modal({ urlCreated, toggleOpenAndCloseModal }: ModalProps) {
           <h2>Url encurtada: {`${domain}${urlCreated.id}`}</h2>
 
           <Link
-            href={`http://${urlCreated.baseUrl}`}
+            href={formatUrl}
             className={styles.redirectButtonContainer}
             target="_blank"
           >
