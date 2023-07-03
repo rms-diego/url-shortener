@@ -1,0 +1,12 @@
+# nodejs
+node_modules
+
+# project
+.next
+.eslintrc
+.gitignore
+README.md
+
+
+# environment variables
+.env.example
