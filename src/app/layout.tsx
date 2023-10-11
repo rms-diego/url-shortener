@@ -1,3 +1,4 @@
+import { Header } from '@/components/Header';
 import './global.scss';
 
 import { Roboto } from 'next/font/google';
@@ -14,8 +15,11 @@ type Props = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="pt-br">
-      <body className={roboto.className}>{children}</body>
+    <html lang="pt-BR">
+      <body className={roboto.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,0 +1,50 @@
+.headerContainer {
+  padding: 0 3.4rem;
+  padding-top: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    background: radial-gradient(
+      12441.24% 97.1% at 5.56% 79.01%,
+      #eb568e 0%,
+      #144ee3 100%
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1.25rem;
+
+  button {
+    padding: 1.3rem 1.5rem;
+    border-radius: 48px;
+    border: 1px solid #353c4a;
+    font-weight: 600;
+    color: #ffffff;
+
+    &:hover {
+      opacity: 0.8;
+      transition: 400ms;
+    }
+  }
+}
+
+.loginButton {
+  background-color: var(--grey-700);
+
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.registerButton {
+  background-color: var(--blue-500);
+}
