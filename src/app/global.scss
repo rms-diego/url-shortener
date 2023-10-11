@@ -1,5 +1,28 @@
+:root {
+  --pink-500: #eb568e;
+  --blue-500: #144ee3;
+  --black-500: #0b101b;
+
+  --grey-200: #c9ced6;
+  --grey-700: #181e29;
+
+  --gradient: #144ee3, #eb568e, #a353aa, #144ee3;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  background-image: url('/assets/cubes.svg');
+  background-color: var(--black-500);
+}
+
+button {
+  cursor: pointer;
 }
