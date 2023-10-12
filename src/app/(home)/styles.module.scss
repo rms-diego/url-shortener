@@ -33,3 +33,25 @@
     font-weight: 300;
   }
 }
+
+@media screen and (max-width: 900px) {
+  .mainContainer {
+    padding: 0 2rem;
+    padding-top: 8.1rem;
+  }
+  .contentTextContainer {
+    h2 {
+      font-size: 2rem;
+    }
+  }
+}
+
+// @media screen and (max-width: 600px) {
+//   .mainContainer {
+//     padding: 0 2rem;
+//     padding-top: 8.1rem;
+//   }
+//   .contentTextContainer {
+//     font-size: 2rem;
+//   }
+// }
