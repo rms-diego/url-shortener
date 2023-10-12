@@ -48,3 +48,19 @@
 .registerButton {
   background-color: var(--blue-500);
 }
+
+@media (max-width: 1200px) {
+  .headerContainer {
+    padding: 1rem 1rem;
+
+    button {
+      padding: 1rem 1rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .registerButton {
+    display: none;
+  }
+}
