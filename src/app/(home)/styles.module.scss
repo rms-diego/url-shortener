@@ -1,0 +1,35 @@
+.mainContainer {
+  padding: 0 9.6rem;
+  padding-top: 8.1rem;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2.8rem;
+}
+
+.contentTextContainer {
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  h2 {
+    font-size: 3.75rem;
+    background: radial-gradient(
+      12441.24% 97.1% at 5.56% 79.01%,
+      #eb568e 0%,
+      #144ee3 100%
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    color: var(--grey-200);
+    font-weight: 300;
+  }
+}
