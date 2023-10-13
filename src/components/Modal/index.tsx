@@ -14,7 +14,11 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
           <form className={styles.formContainer}>
             <section className={styles.headerFormContainer}>
               <h2>{title}</h2>
-              <button type="button" onClick={toggleOpen}>
+              <button
+                type="button"
+                onClick={toggleOpen}
+                className={styles.exitButton}
+              >
                 X
               </button>
             </section>
