@@ -24,7 +24,7 @@
   gap: 1.25rem;
 
   button {
-    padding: 1.3rem 1.5rem;
+    // padding: 1.3rem 1.5rem;
     border-radius: 48px;
     border: 1px solid #353c4a;
     font-weight: 600;
@@ -38,6 +38,7 @@
 }
 
 .loginButton {
+  padding: 0.8rem 1rem;
   background-color: var(--grey-700);
 
   display: flex;
@@ -46,6 +47,7 @@
 }
 
 .registerButton {
+  padding: 0.8rem 1rem;
   background-color: var(--blue-500);
 }
 
