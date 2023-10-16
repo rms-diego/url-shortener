@@ -4,15 +4,16 @@ import bcrypt from 'bcrypt';
 
 import { createToken } from '@/utils/jwt';
 
-export const userSchema = zod.object({
+const userSchema = zod.object({
   email: zod.string().email({ message: 'Must be email format' }),
   password: zod.string().min(8, { message: 'must be min length 8 caracteres' }),
+  name: zod.string().min(3, { message: 'must be min length 8 caracteres' }),
 });
 
 export async function POST(request: Request) {
   const data = await request.json();
 
-  const { email, password } = await userSchema.parseAsync(data);
+  const { email, password, name } = await userSchema.parseAsync(data);
 
   const userAlreadyExists = await prisma.user.findFirst({
     where: { email },
@@ -33,12 +34,13 @@ export async function POST(request: Request) {
     data: {
       email,
       password: passwordHash,
+      name,
     },
   });
 
   const token = createToken(user);
 
-  return new Response(JSON.stringify({ token }), {
+  return new Response(JSON.stringify({ token, name: user.name }), {
     status: 201,
   });
 }

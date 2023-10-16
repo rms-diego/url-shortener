@@ -1,8 +1,13 @@
 import { prisma } from '@/database/prisma';
 import bcrypt from 'bcrypt';
+import { z as zod } from 'zod';
 
-import { userSchema } from '../register/route';
 import { createToken } from '@/utils/jwt';
+
+const userSchema = zod.object({
+  email: zod.string().email({ message: 'Must be email format' }),
+  password: zod.string().min(8, { message: 'must be min length 8 caracteres' }),
+});
 
 export async function POST(request: Request) {
   const data = await request.json();
@@ -34,7 +39,7 @@ export async function POST(request: Request) {
 
   const token = createToken(user);
 
-  return new Response(JSON.stringify({ token }), {
+  return new Response(JSON.stringify({ token, name: user.name }), {
     status: 200,
   });
 }
