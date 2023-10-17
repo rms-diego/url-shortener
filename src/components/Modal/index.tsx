@@ -1,6 +1,5 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { client } from '@/utils/client';
+import { useModal } from '@/hook/useModal';
 
 type Props = {
   isOpen: boolean;
@@ -9,81 +8,15 @@ type Props = {
 };
 
 export function Modal({ isOpen, toggleOpen, title }: Props) {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [name, setName] = useState<string>('');
-
-  function handleNameChange({ target }: ChangeEvent<HTMLInputElement>) {
-    setName(target.value);
-  }
-
-  function handleEmailChange({ target }: ChangeEvent<HTMLInputElement>) {
-    setEmail(target.value);
-  }
-
-  function handlePasswordChange({ target }: ChangeEvent<HTMLInputElement>) {
-    setPassword(target.value);
-  }
-
-  function resetInputs() {
-    setEmail('');
-    setPassword('');
-    setName('');
-  }
-
-  async function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (title === 'Cadastrar') {
-      try {
-        const response = await client.post<{ token: string; name: string }>(
-          '/auth/register',
-          {
-            email: email.trim(),
-            password: password.trim(),
-            name: name.trim(),
-          }
-        );
-
-        localStorage.setItem('user', response?.data.name!);
-        localStorage.setItem('token', response?.data.token!);
-      } catch (error) {
-        alert('Usuário já exite');
-      }
-
-      resetInputs();
-      toggleOpen();
-      return;
-    }
-
-    try {
-      const response = await client.post<{ token: string; name: string }>(
-        '/auth/login',
-        {
-          email: email.trim(),
-          password: password.trim(),
-        }
-      );
-
-      localStorage.setItem('token', response?.data.token!);
-      localStorage.setItem('user', response?.data.name!);
-    } catch (error) {
-      const { data } = error.response!;
-
-      resetInputs();
-      toggleOpen();
-
-      if (data.error === 'invalid password') {
-        return alert('senha inválida');
-      }
-
-      return alert('usuário não existe');
-    }
-
-    resetInputs();
-    toggleOpen();
-    return;
-  }
+  const {
+    handleEmailChange,
+    handleNameChange,
+    handlePasswordChange,
+    handleSubmitForm,
+    email,
+    name,
+    password,
+  } = useModal({ toggleOpen, title });
 
   return (
     <>

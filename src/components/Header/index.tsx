@@ -2,17 +2,17 @@
 import Image from 'next/image';
 import styles from './styles.module.scss';
 import { Modal } from '../Modal';
-import { useModal } from '@/hook/useModal';
+import { useControlModal } from '@/hook/useControlModal';
 
 export function Header() {
   const {
     openLoginModal,
     openRegisterModal,
+    isLogged,
     toggleOpenLoginModal,
     toggleOpenRegister,
-    isLogged,
     setIsLogged,
-  } = useModal();
+  } = useControlModal();
 
   function handleLogout() {
     localStorage.removeItem('token');
