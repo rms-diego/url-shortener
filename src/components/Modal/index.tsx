@@ -35,41 +35,53 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
     event.preventDefault();
 
     if (title === 'Cadastrar') {
-      const response = await client
-        .post<{ token: string; name: string }>('/auth/register', {
+      try {
+        const response = await client.post<{ token: string; name: string }>(
+          '/auth/register',
+          {
+            email: email.trim(),
+            password: password.trim(),
+            name: name.trim(),
+          }
+        );
+
+        localStorage.setItem('user', response?.data.name!);
+        localStorage.setItem('token', response?.data.token!);
+      } catch (error) {
+        alert('Usuário já exite');
+      }
+
+      resetInputs();
+      toggleOpen();
+      return;
+    }
+
+    try {
+      const response = await client.post<{ token: string; name: string }>(
+        '/auth/login',
+        {
           email: email.trim(),
           password: password.trim(),
-          name: name.trim(),
-        })
-        .catch(() => alert('Usuário já existe'));
+        }
+      );
+
+      localStorage.setItem('token', response?.data.token!);
+      localStorage.setItem('user', response?.data.name!);
+    } catch (error) {
+      const { data } = error.response!;
 
       resetInputs();
       toggleOpen();
 
-      localStorage.setItem('user', response?.data.name!);
-      localStorage.setItem('token', response?.data.token!);
-      return;
+      if (data.error === 'invalid password') {
+        return alert('senha inválida');
+      }
+
+      return alert('usuário não existe');
     }
-
-    const response = await client
-      .post<{ token: string; name: string }>('/auth/login', {
-        email: email.trim(),
-        password: password.trim(),
-      })
-      .catch((error) => {
-        const { data } = error.response;
-
-        if (data.error === 'invalid password') {
-          return alert('senha inválida');
-        }
-
-        return alert('usuário não existe');
-      });
 
     resetInputs();
     toggleOpen();
-    localStorage.setItem('token', response?.data.token!);
-    localStorage.setItem('user', response?.data.name!);
     return;
   }
 
