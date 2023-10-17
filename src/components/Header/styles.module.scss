@@ -19,6 +19,31 @@
   }
 }
 
+.welcomeMessage {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+
+  background: radial-gradient(
+    12441.24% 97.1% at 5.56% 79.01%,
+    #eb568e 0%,
+    #144ee3 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  span {
+    font-size: 1rem;
+  }
+}
+
+.logoutButton {
+  padding: 0.8rem 1rem;
+  background-color: var(--blue-500);
+}
+
 .buttonContainer {
   display: flex;
   gap: 1.25rem;
