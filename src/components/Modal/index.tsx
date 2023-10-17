@@ -11,6 +11,11 @@ type Props = {
 export function Modal({ isOpen, toggleOpen, title }: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [name, setName] = useState<string>('');
+
+  function handleNameChange({ target }: ChangeEvent<HTMLInputElement>) {
+    setName(target.value);
+  }
 
   function handleEmailChange({ target }: ChangeEvent<HTMLInputElement>) {
     setEmail(target.value);
@@ -20,23 +25,37 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
     setPassword(target.value);
   }
 
+  function resetInputs() {
+    setEmail('');
+    setPassword('');
+    setName('');
+  }
+
   async function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (title === 'Cadastrar') {
       const response = await client
-        .post('/auth/register', { email, password })
+        .post<{ token: string; name: string }>('/auth/register', {
+          email: email.trim(),
+          password: password.trim(),
+          name: name.trim(),
+        })
         .catch(() => alert('Usuário já existe'));
 
-      setEmail('');
-      setPassword('');
+      resetInputs();
       toggleOpen();
-      // localStorage.setItem('', r)
+
+      localStorage.setItem('user', response?.data.name!);
+      localStorage.setItem('token', response?.data.token!);
       return;
     }
 
-    const data = await client
-      .post('/auth/login', { email, password })
+    const response = await client
+      .post<{ token: string; name: string }>('/auth/login', {
+        email: email.trim(),
+        password: password.trim(),
+      })
       .catch((error) => {
         const { data } = error.response;
 
@@ -47,11 +66,10 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
         return alert('usuário não existe');
       });
 
-    console.log(data);
-    setEmail('');
-    setPassword('');
+    resetInputs();
     toggleOpen();
-
+    localStorage.setItem('token', response?.data.token!);
+    localStorage.setItem('user', response?.data.name!);
     return;
   }
 
@@ -71,7 +89,21 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
               </button>
             </section>
 
-            <label htmlFor="">
+            {title === 'Cadastrar' && (
+              <label>
+                Nome
+                <input
+                  type="text"
+                  placeholder="Adicione seu link aqui"
+                  onChange={handleNameChange}
+                  value={name}
+                  required
+                  minLength={3}
+                />
+              </label>
+            )}
+
+            <label>
               Email
               <input
                 type="email"
@@ -82,7 +114,7 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
               />
             </label>
 
-            <label htmlFor="">
+            <label>
               Senha
               <input
                 type="password"
