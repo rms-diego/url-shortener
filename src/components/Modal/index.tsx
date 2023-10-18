@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import styles from './styles.module.scss';
 import { useModal } from '@/hook/useModal';
+import { supabase } from '@/utils/supabase';
 
 type Props = {
   isOpen: boolean;
@@ -17,6 +19,17 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
     name,
     password,
   } = useModal({ toggleOpen, title });
+
+  async function handleSignIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    });
+
+    toggleOpen();
+  }
+
+  const buttonText =
+    title === 'Cadastrar' ? 'Cadastrar com o github' : 'Login com o github';
 
   return (
     <>
@@ -72,6 +85,10 @@ export function Modal({ isOpen, toggleOpen, title }: Props) {
             </label>
 
             <button type="submit">{title}</button>
+            <button className={styles.githubButton} onClick={handleSignIn}>
+              {buttonText}
+              <Image src="/assets/github.svg" alt="" width={20} height={20} />
+            </button>
           </form>
         </div>
       )}

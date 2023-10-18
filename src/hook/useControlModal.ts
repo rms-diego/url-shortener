@@ -1,9 +1,39 @@
+import { supabase } from '@/utils/supabase';
 import { useEffect, useState } from 'react';
 
 export function useControlModal() {
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [openRegisterModal, setOpenRegisterModal] = useState<boolean>(false);
   const [isLogged, setIsLogged] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>('');
+
+  // verifica se quando o componente monta o usuário está logado
+  useEffect(() => {
+    const handleLogin = async () => {
+      await isLoggedByGithub();
+
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        const name = localStorage.getItem('user');
+        setIsLogged(true);
+        setUserName(name!);
+      }
+    };
+
+    handleLogin();
+  }, []);
+
+  // verifica se quando o usuário abriu o modal se cadastrou o fez o login
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const name = localStorage.getItem('user');
+      setIsLogged(true);
+      setUserName(name!);
+    }
+  }, [openLoginModal, openRegisterModal]);
 
   function toggleOpenLoginModal() {
     setOpenLoginModal((prevState) => !prevState);
@@ -13,24 +43,23 @@ export function useControlModal() {
     setOpenRegisterModal((prevState) => !prevState);
   }
 
-  // verifica se quando o componente monta o usuário está logado
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+  async function isLoggedByGithub() {
+    const { data } = await supabase.auth.getUser();
 
-    if (token) {
-      setIsLogged(true);
-    }
-  }, []);
+    if (!data.user) return;
 
-  // verifica se quando o usuário abriu o modal se cadastrou o fez o login
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+    localStorage.setItem('user', data.user.user_metadata.name);
 
-    if (token) {
-      setIsLogged(true);
-    }
-  }, [openLoginModal, openRegisterModal]);
+    setUserName(data.user.user_metadata.name);
+    setIsLogged(true);
+  }
 
+  async function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLogged(false);
+    await supabase.auth.signOut();
+  }
   return {
     openLoginModal,
     toggleOpenLoginModal,
@@ -38,5 +67,7 @@ export function useControlModal() {
     toggleOpenRegister,
     isLogged,
     setIsLogged,
+    userName,
+    handleLogout,
   };
 }

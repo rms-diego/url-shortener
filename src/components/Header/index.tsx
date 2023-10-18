@@ -11,14 +11,9 @@ export function Header() {
     isLogged,
     toggleOpenLoginModal,
     toggleOpenRegister,
-    setIsLogged,
+    handleLogout,
+    userName,
   } = useControlModal();
-
-  function handleLogout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setIsLogged(false);
-  }
 
   return (
     <>
@@ -27,13 +22,11 @@ export function Header() {
         toggleOpen={toggleOpenLoginModal}
         title="Login"
       />
-
       <Modal
         isOpen={openRegisterModal}
         toggleOpen={toggleOpenRegister}
         title="Cadastrar"
       />
-
       <header className={styles.headerContainer}>
         <h1>Linkly</h1>
 
@@ -41,7 +34,7 @@ export function Header() {
           {isLogged ? (
             <>
               <h2 className={styles.welcomeMessage}>
-                Bem vindo <span>{localStorage.getItem('user')}</span>
+                Bem vindo <span>{userName}</span>
               </h2>
               <button className={styles.logoutButton} onClick={handleLogout}>
                 Sair da conta

@@ -59,6 +59,13 @@
   }
 }
 
+.githubButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 @media (max-width: 1200px) {
   .formContainer {
     width: 80vw;
